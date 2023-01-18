@@ -10,9 +10,12 @@ class Card{
     cardDisplay(){
         console.log(document.getElementById("cardHolder"));
         let newCard = document.createElement('div');
+        let square = document.createElement('div');
         let top = document.createElement('div');
         let bottom = document.createElement('div');
         let middle = document.createElement('div');
+
+
         newCard.className="card";
         top.className = "top";
         top.innerHTML = this.number;
@@ -121,6 +124,7 @@ class BlackJack{
     dealerDraw(){
         if (this.dealerScore <= 15){
             this.dealerScore += this.getValue(this.deck.pop())
+    
         }
 
         if (this.dealerScore > 21){
@@ -132,6 +136,7 @@ class BlackJack{
             this.isPlaying = 'false';
             this.gameOver();
         }
+
     }
 
     displayHand(){
@@ -178,7 +183,7 @@ class BlackJack{
 
         if (this.dealerScore > 21){
             document.getElementById("announce").style.display = "inline";
-            document.getElementById("announce").innerHTML = "Dealer Bust! You win! Play again? ";
+            document.getElementById("announce").innerHTML = `Dealer Bust! Dealer has ${this.dealerScore}. You win! Play again? `;
             document.getElementById("hitButton").style.display = "none";
             document.getElementById("stayButton").style.display = "none";
             document.getElementById("playButton").style.display = "inline";
@@ -195,33 +200,40 @@ class BlackJack{
     }
     stay(){
 
-        while (this.dealerScore <= 16){
+        while (this.dealerScore <= 15){
         this.dealerDraw();
         }
-        if (this.score > this.dealerScore){
-            document.getElementById("announce").style.display = "inline";
-            document.getElementById("announce").innerHTML = `You win! Dealer has ${this.dealerScore} Play again? `;
-            document.getElementById("hitButton").style.display = "none";
-            document.getElementById("stayButton").style.display = "none";
-            document.getElementById("playButton").style.display = "inline";
 
+        if (this.dealerScore > 21){
+            this.isPlaying = false;
+            this.gameOver();
         }
-        if (this.score === this.dealerScore){
-            document.getElementById("announce").style.display = "inline";
-            document.getElementById("announce").innerHTML = `Tie Game! Dealer has ${this.dealerScore}! Play again? `;
-            document.getElementById("hitButton").style.display = "none";
-            document.getElementById("stayButton").style.display = "none";
-            document.getElementById("playButton").style.display = "inline";
 
-        }
-        else{
-            if (this.score === this.dealerScore){
+        if (this.isPlaying){
+
+            if (this.score > this.dealerScore){
                 document.getElementById("announce").style.display = "inline";
-                document.getElementById("announce").innerHTML = "Dealer wins! Play again? ";
+                document.getElementById("announce").innerHTML = `You win! Dealer has ${this.dealerScore} Play again? `;
                 document.getElementById("hitButton").style.display = "none";
                 document.getElementById("stayButton").style.display = "none";
                 document.getElementById("playButton").style.display = "inline";
-    
+
+            }
+            if (this.score === this.dealerScore){
+                document.getElementById("announce").style.display = "inline";
+                document.getElementById("announce").innerHTML = `Tie Game! Dealer has ${this.dealerScore}! Play again? `;
+                document.getElementById("hitButton").style.display = "none";
+                document.getElementById("stayButton").style.display = "none";
+                document.getElementById("playButton").style.display = "inline";
+
+            }
+            if (this.score < this.dealerScore){
+               document.getElementById("announce").style.display = "inline";
+                document.getElementById("announce").innerHTML = `Dealer wins! Dealer has ${this.dealerScore}! Play again? `;
+                document.getElementById("hitButton").style.display = "none";
+                document.getElementById("stayButton").style.display = "none";
+                document.getElementById("playButton").style.display = "inline";
+        
             }
         }
 
